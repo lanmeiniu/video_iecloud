@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iecloud.dao.VideoMapper" >
+  <resultMap id="BaseResultMap" type="com.iecloud.pojo.Video" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="detail" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="video_image_address" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="video_address" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, detail, video_image_address, video_address, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from videoshare_video
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from videoshare_video
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.iecloud.pojo.Video" >
+    insert into videoshare_video (id, title, detail, 
+      video_image_address, video_address, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, 
+      #{videoImageAddress,jdbcType=VARCHAR}, #{videoAddress,jdbcType=VARCHAR}, now(),
+      now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.iecloud.pojo.Video" >
+    insert into videoshare_video
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="detail != null" >
+        detail,
+      </if>
+      <if test="videoImageAddress != null" >
+        video_image_address,
+      </if>
+      <if test="videoAddress != null" >
+        video_address,
+      </if>
+        create_time,
+        update_time,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="videoImageAddress != null" >
+        #{videoImageAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="videoAddress != null" >
+        #{videoAddress,jdbcType=VARCHAR},
+      </if>
+      now(),
+      now(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iecloud.pojo.Video" >
+    update videoshare_video
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="videoImageAddress != null" >
+        video_image_address = #{videoImageAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="videoAddress != null" >
+        video_address = #{videoAddress,jdbcType=VARCHAR},
+      </if>
+        update_time = now(),
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iecloud.pojo.Video" >
+    update videoshare_video
+    set title = #{title,jdbcType=VARCHAR},
+      detail = #{detail,jdbcType=VARCHAR},
+      video_image_address = #{videoImageAddress,jdbcType=VARCHAR},
+      video_address = #{videoAddress,jdbcType=VARCHAR},
+      update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectMatchKeyWord" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM videoshare_video WHERE MATCH (title , detail) AGAINST (#{keyWord} IN natural language MODE);
+  </select>
+
+  <select id="checkVideoTitle" resultType="int" parameterType="string" >
+    select count(1) from videoshare_video
+    where title = #{videoTitle}
+  </select>
+
+</mapper>
