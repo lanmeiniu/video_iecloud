@@ -15,7 +15,7 @@ CREATE TABLE `videoshare_user` (
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '最后一次更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `user_name_unique` (`username`) USING BTREE
+  UNIQUE KEY `phone_unique` (`phone`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -24,10 +24,7 @@ CREATE TABLE `videoshare_user` (
 BEGIN;
 INSERT INTO `videoshare_user`
 VALUES
-  ('1', 'admin', '427338237BD929443EC5D48E24FD2B1A', '13800138000', '1', now(), now()),
-  ('13', 'geely', '08E9A6EA287E70E7E3F7C982BF7923AC', '13800138000', '0', now(), now()),
-  ('17', 'rosen', '095AC193FE2212EEC7A93E8FEFF11902', '13800138000', '0', now(), now()),
-  ('21', 'soonerbetter', 'DE6D76FE7C40D5A1A8F04213F2BEFBEE', '13800138000', '0', now(), now());
+  ('1', 'admin', '427338237BD929443EC5D48E24FD2B1A', '13800138000', '1', now(), now());
 COMMIT;
 
 -- ----------------------------

@@ -53,6 +53,7 @@ public class UserController {
         if (response.isSuccess()) {
             session.setAttribute(Const.V_CODE, verificationCode);
         }
+        System.out.println(response.getMsg());
         return response;
     }
 

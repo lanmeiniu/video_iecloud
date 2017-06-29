@@ -49,7 +49,7 @@ public class UserServiceImpl implements IUserService {
         try {
             //发短信
             SendSmsResponse response = aliyunSmsService.sendSms();
-            Thread.sleep(200);
+            Thread.sleep(500L);
             if(response.getCode() != null && response.getCode().equals("OK")) {
                 return ServerResponse.createBySuccessMessage("验证码发送成功");
             } else {
@@ -65,30 +65,17 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
-    public ServerResponse<String> register(User user, String verificationCode, String verificationCodeInSession){
-        ServerResponse validResponse = this.checkValid(user.getUsername(), verificationCode, verificationCodeInSession);
-        if(!validResponse.isSuccess()){
-            return validResponse;
-        }
-
-        user.setRole(Const.Role.ROLE_CUSTOMER);
-        //MD5加密
-        user.setPassword(MD5Util.MD5EncodeUtf8(user.getPassword()));
-        int resultCount = userMapper.insert(user);
-        if(resultCount == 0){
-            return ServerResponse.createByErrorMessage("注册失败");
-        }
-        return ServerResponse.createBySuccessMessage("注册成功");
-    }
-
     public ServerResponse<String> checkValid(String phoneNumber, String verificationCode, String verificationCodeInSession){
         if(org.apache.commons.lang3.StringUtils.isNotBlank(phoneNumber) &&
                 org.apache.commons.lang3.StringUtils.isNotBlank(verificationCode)){
             //开始校验
             int resultCount = userMapper.checkPhone(phoneNumber);
             if(resultCount > 0 ){
-                return ServerResponse.createByErrorMessage("用户名已存在");
+                return ServerResponse.createByErrorMessage("手机号已存在");
             }
+
+            System.out.println("verificationCode : " + verificationCode);
+            System.out.println("verificationCodeInSession : " + verificationCodeInSession);
 
             if (!verificationCode.equalsIgnoreCase(verificationCodeInSession)) {
                 return ServerResponse.createByErrorMessage("验证码错误");
@@ -97,6 +84,27 @@ public class UserServiceImpl implements IUserService {
             return ServerResponse.createByErrorMessage("参数错误");
         }
         return ServerResponse.createBySuccessMessage("校验成功");
+    }
+
+    public ServerResponse<String> register(User user, String verificationCode, String verificationCodeInSession){
+        ServerResponse<String> validResponse = this.checkValid(user.getPhone(), verificationCode, verificationCodeInSession);
+        if(!validResponse.isSuccess()){
+            return validResponse;
+        }
+
+        user.setRole(Const.Role.ROLE_CUSTOMER);
+        //MD5加密
+        user.setPassword(MD5Util.MD5EncodeUtf8(user.getPassword()));
+        try {
+            int resultCount = userMapper.insert(user);
+            if(resultCount == 0){
+                return ServerResponse.createByErrorMessage("注册失败");
+            }
+            return ServerResponse.createBySuccessMessage("注册成功");
+
+        } catch (Exception e) {
+            return ServerResponse.createByErrorMessage(e.getMessage());
+        }
     }
 
     public ServerResponse<String> forgetResetPassword(User user, String verificationCode,String verificationCodeInSession){
