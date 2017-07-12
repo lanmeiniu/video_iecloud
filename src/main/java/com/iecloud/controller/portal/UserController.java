@@ -23,6 +23,12 @@ public class UserController {
     @Autowired
     private IUserService iUserService;
 
+    @RequestMapping(value = "test.do",method = RequestMethod.POST)
+    @ResponseBody
+    public int testerror(){
+        return 9/0;
+    }
+
     @RequestMapping(value = "login.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<User> login(String phoneNumber, String password, HttpSession session){
