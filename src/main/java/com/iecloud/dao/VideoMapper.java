@@ -5,13 +5,13 @@ import com.iecloud.pojo.Video;
 import java.util.List;
 
 public interface VideoMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String id);
 
     int insert(Video record);
 
     int insertSelective(Video record);
 
-    Video selectByPrimaryKey(Integer id);
+    Video selectByPrimaryKey(String id);
 
     int updateByPrimaryKeySelective(Video record);
 

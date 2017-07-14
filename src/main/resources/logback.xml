@@ -5,29 +5,35 @@
         <encoder>
             <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
         </encoder>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>DEBUG</level>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
         </filter>
     </appender>
-
     <appender name="videoshare" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>E:\xieguotao\01.work\01.java\04.project\java_log\videoshare\videoshare.log</File>
+        <File>D:/Work/java/java_log/video-share/videoshare.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>E:\xieguotao\01.work\01.java\04.project\java_log\videoshare\videoshare.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>D:/Work/java/java_log/video-share/videoshare.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <append>true</append>
             <maxHistory>10</maxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
         </encoder>
+        <filter class = "ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
     </appender>
 
 
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--<File>d:/mmalllog/error.log</File>-->
-        <File>E:\xieguotao\01.work\01.java\04.project\java_log\videoshare\error.log</File>
+        <File>D:/Work/java/java_log/video-share//error.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>E:\xieguotao\01.work\01.java\04.project\java_log\videoshare\error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>D:/Work/java/java_log/video-share/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <!--<fileNamePattern>d:/mmalllog/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>-->
             <append>true</append>
             <maxHistory>10</maxHistory>
@@ -42,20 +48,23 @@
         </filter>
     </appender>
 
-    <logger name="com.iecloud" additivity="false" level="INFO" >
-        <appender-ref ref="iecloud" />
-        <appender-ref ref="console"/>
+    <logger name="com.iecloud" additivity="false">
+        <level value ="ERROR"/>
+        <appender-ref ref="console" />
+        <appender-ref ref="videoshare"/>
     </logger>
 
-
+    <logger name="com.iecloud" additivity="false" level="ERROR">
+        <appender-ref ref="console" />
+        <appender-ref ref="error"/>
+    </logger>
 
     <!-- geelynote mybatis log 日志 -->
 
     <logger name="com.iecloud.dao" level="DEBUG"/>
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="console"/>
-        <appender-ref ref="error"/>
     </root>
 
 </configuration>
