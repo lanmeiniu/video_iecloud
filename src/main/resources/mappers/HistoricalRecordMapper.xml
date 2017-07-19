@@ -8,32 +8,32 @@
       <arg column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="video_address" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="detail" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="current_time" jdbcType="TIME" javaType="java.util.Date" />
+      <arg column="current_video_time" jdbcType="BIGINT" javaType="java.lang.Long" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, phone_number, title, video_address, detail, current_time
+    id, phone_number, title, video_address, detail, current_video_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from videoshare_historicalrecord
+    from videoshare_history
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from videoshare_historicalrecord
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from videoshare_history
     where phone_number = #{phoneNumber,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.iecloud.pojo.HistoricalRecord" >
-    insert into videoshare_historicalrecord (id, phone_number, title, 
-      video_address, detail, current_time
+    insert into videoshare_history (id, phone_number, title, 
+      video_address, detail, current_video_time
       )
     values (#{id,jdbcType=INTEGER}, #{phoneNumber,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{videoAddress,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{currentTime,jdbcType=TIME}
+      #{videoAddress,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{currentVideoTime,jdbcType=BIGINT}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.iecloud.pojo.HistoricalRecord" >
-    insert into videoshare_historicalrecord
+    insert into videoshare_history
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -50,8 +50,8 @@
       <if test="detail != null" >
         detail,
       </if>
-      <if test="currentTime != null" >
-        current_time,
+      <if test="currentVideoTime != null" >
+        current_video_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -70,13 +70,13 @@
       <if test="detail != null" >
         #{detail,jdbcType=VARCHAR},
       </if>
-      <if test="currentTime != null" >
-        #{currentTime,jdbcType=TIME},
+      <if test="currentVideoTime != null" >
+        #{currentVideoTime,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.iecloud.pojo.HistoricalRecord" >
-    update videoshare_historicalrecord
+    update videoshare_history
     <set >
       <if test="phoneNumber != null" >
         phone_number = #{phoneNumber,jdbcType=VARCHAR},
@@ -90,38 +90,34 @@
       <if test="detail != null" >
         detail = #{detail,jdbcType=VARCHAR},
       </if>
-      <if test="currentTime != null" >
-        current_time = #{currentTime,jdbcType=TIME},
+      <if test="currentVideoTime != null" >
+        current_video_time = #{currentVideoTime,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.iecloud.pojo.HistoricalRecord" >
-    update videoshare_historicalrecord
+    update videoshare_history
     set phone_number = #{phoneNumber,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       video_address = #{videoAddress,jdbcType=VARCHAR},
       detail = #{detail,jdbcType=VARCHAR},
-      current_time = #{currentTime,jdbcType=TIME}
+      current_video_time = #{currentVideoTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectAllFromHistory" resultMap="BaseResultMap">
+
+  <select id="getHistoricalRecordByUser" parameterType="java.lang.String" resultMap="BaseResultMap">
     SELECT
     <include refid="Base_Column_List"/>
-    from videoshare_historicalrecord
-  </select>
-  <select id="getHistoryByUser" resultMap="BaseResultMap">
-    SELECT
-    <include refid="Base_Column_List"/>
-    from videoshare_historicalrecord
+    from videoshare_history
     where phone_number = #{phoneNumber}
   </select>
   <select id="checkPhone" parameterType="java.lang.String" resultType="int">
-    select count(1) from videoshare_historicalrecord
+    select count(1) from videoshare_history
     where phone_number = #{phoneNumber}
   </select>
   <update id="updateByPhoneNumber" parameterType="com.iecloud.pojo.HistoricalRecord">
-    update videoshare_historicalrecord
+    update videoshare_history
     <set >
 
       <if test="title != null" >
@@ -133,11 +129,12 @@
       <if test="detail != null" >
         detail = #{detail,jdbcType=VARCHAR},
       </if>
-      <if test="currentTime != null" >
-        current_time = #{currentTime,jdbcType=TIME},
+      <if test="currentVideoTime != null" >
+        current_video_time = #{currentVideoTime,jdbcType=BIGINT},
       </if>
     </set>
     where phone_number = #{phoneNumber,jdbcType=VARCHAR}
   </update>
+
 
 </mapper>

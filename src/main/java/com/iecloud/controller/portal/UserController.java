@@ -100,6 +100,7 @@ public class UserController {
         if(session == null) {
             return ServerResponse.createByErrorMessage("session为空");
         }
+
         String verificationCodeInSession = (String) session.getAttribute(Const.V_CODE);
         return iUserService.forgetResetPassword(user, verificationCode, verificationCodeInSession);
     }

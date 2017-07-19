@@ -1,7 +1,5 @@
 package com.iecloud.pojo;
 
-import java.util.Date;
-
 public class HistoricalRecord {
     private Integer id;
 
@@ -13,15 +11,15 @@ public class HistoricalRecord {
 
     private String detail;
 
-    private Date currentTime;
+    private Long currentVideoTime;
 
-    public HistoricalRecord(Integer id, String phoneNumber, String title, String videoAddress, String detail, Date currentTime) {
+    public HistoricalRecord(Integer id, String phoneNumber, String title, String videoAddress, String detail, Long currentVideoTime) {
         this.id = id;
         this.phoneNumber = phoneNumber;
         this.title = title;
         this.videoAddress = videoAddress;
         this.detail = detail;
-        this.currentTime = currentTime;
+        this.currentVideoTime = currentVideoTime;
     }
 
     public HistoricalRecord() {
@@ -68,11 +66,11 @@ public class HistoricalRecord {
         this.detail = detail == null ? null : detail.trim();
     }
 
-    public Date getCurrentTime() {
-        return currentTime;
+    public Long getCurrentVideoTime() {
+        return currentVideoTime;
     }
 
-    public void setCurrentTime(Date currentTime) {
-        this.currentTime = currentTime;
+    public void setCurrentVideoTime(Long currentVideoTime) {
+        this.currentVideoTime = currentVideoTime;
     }
 }

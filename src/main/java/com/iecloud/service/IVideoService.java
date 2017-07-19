@@ -18,11 +18,9 @@ public interface IVideoService {
 
     ServerResponse<String> deleteVideoRecord(String id);
 
-    ServerResponse<List<HistoricalRecord>> getHistoricalRecord();
+    ServerResponse<List<HistoricalRecord>> getHistoricalRecordByUser(String phoneNumber);
 
-    ServerResponse<List<HistoricalRecord>> getHistoryByUser(String phoneNumber);
+    ServerResponse<List<HistoricalRecord>> addHistoricalRecordByUser(String phoneNumber,HistoricalRecord historicalRecord);
 
-    ServerResponse<List<HistoricalRecord>> addHistoryByUser(String phoneNumber,HistoricalRecord historicalRecord);
-
-    ServerResponse<List<HistoricalRecord>> deleteHistoryByUser (String phoneNumber,HistoricalRecord historicalRecord);
+    ServerResponse<List<HistoricalRecord>> deleteHistoricalRecordByUser (String phoneNumber);
 }

@@ -83,17 +83,8 @@ public class VideoServiceImpl implements IVideoService {
     }
 
     @Override
-    public ServerResponse<List<HistoricalRecord>> getHistoricalRecord(){
-        List<HistoricalRecord> historyList = historicalRecordMapper.selectAllFromHistory();
-        if(CollectionUtils.isEmpty(historyList)){
-            log.info("没有历史记录");
-        }
-        return ServerResponse.createBySuccess("ok",historyList);
-    }
-
-    @Override
-    public ServerResponse<List<HistoricalRecord>> getHistoryByUser(String phoneNumber){
-        List<HistoricalRecord> historyList = historicalRecordMapper.getHistoryByUser(phoneNumber);
+    public ServerResponse<List<HistoricalRecord>> getHistoricalRecordByUser(String phoneNumber){
+        List<HistoricalRecord> historyList = historicalRecordMapper.getHistoricalRecordByUser(phoneNumber);
         if(CollectionUtils.isEmpty(historyList)){
             log.info("当前没有浏览记录");
             return ServerResponse.createByErrorMessage("当前没有历史记录");
@@ -102,8 +93,9 @@ public class VideoServiceImpl implements IVideoService {
         }
     }
 
+
     @Override
-    public ServerResponse<List<HistoricalRecord>> addHistoryByUser(String phoneNumber,
+    public ServerResponse<List<HistoricalRecord>> addHistoricalRecordByUser(String phoneNumber,
                                                                    HistoricalRecord historicalRecord){
         int resultCount = historicalRecordMapper.checkPhone(phoneNumber);
         if(resultCount > 0 ) {
@@ -128,10 +120,10 @@ public class VideoServiceImpl implements IVideoService {
     }
 
     @Override
-    public ServerResponse<List<HistoricalRecord>> deleteHistoryByUser (String phoneNumber,
-                                                                HistoricalRecord historicalRecord){
+    public ServerResponse<List<HistoricalRecord>> deleteHistoricalRecordByUser (String phoneNumber){
         int resultCount = historicalRecordMapper.checkPhone(phoneNumber);
         if (resultCount > 0 ) {
+            //按照手机号码进行历史记录删除
             int resultCount1 = historicalRecordMapper.deleteByPrimaryKey(phoneNumber);
             if(resultCount1 > 0){
                 return ServerResponse.createBySuccessMessage("已成功删除历史记录");

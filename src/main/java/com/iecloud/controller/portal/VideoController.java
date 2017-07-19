@@ -50,14 +50,8 @@ public class VideoController {
     public ServerResponse<String> deleteVideoRecord (String id) {
         return iVideoService.deleteVideoRecord(id);
     }
-    @RequestMapping(value = "getHistoryRecord.do")
-    @ResponseBody
-    public ServerResponse<List<HistoricalRecord>> getHistoryRecord(){
 
-        return iVideoService.getHistoricalRecord();
-    }
-
-    @RequestMapping(value = "getHistoryRecordByUser.do")
+    @RequestMapping(value = "getHistoricalRecordByUser.do")
     @ResponseBody
     public ServerResponse<List<HistoricalRecord>> getHistoryRecordByUser (HttpSession session){
         //先从session中获取用户
@@ -66,10 +60,10 @@ public class VideoController {
             return ServerResponse.createByErrorMessage("请您先登录，再查看历史记录！");
         } else {
             String phoneNumber = user.getPhone();
-            return iVideoService.getHistoryByUser(phoneNumber);
+            return iVideoService.getHistoricalRecordByUser(phoneNumber);
         }
     }
-    @RequestMapping(value = "addHistoryByUser.do")
+    @RequestMapping(value = "addHistoricalRecordByUser.do")
     @ResponseBody
     public ServerResponse<List<HistoricalRecord>> addHistoryRecordByUser (HttpSession session,
                                                                           HistoricalRecord historicalRecord){
@@ -78,23 +72,19 @@ public class VideoController {
             return ServerResponse.createByErrorMessage("未登录用户，不能添加历史记录");
         } else {
             String phoneNumber = user.getPhone();
-            return iVideoService.addHistoryByUser(phoneNumber,historicalRecord);
+            return iVideoService.addHistoricalRecordByUser(phoneNumber,historicalRecord);
         }
     }
-    @RequestMapping(value = "deleteHistoryByUser.do")
+    @RequestMapping(value = "deleteHistoricalRecordByUser.do")
     @ResponseBody
-    public  ServerResponse<List<HistoricalRecord>> deleteHistoryByUser(HttpSession session,
-                                                                       HistoricalRecord historicalrecord){
+    public  ServerResponse<List<HistoricalRecord>> deleteHistoryByUser(HttpSession session){
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if(user == null ) {
             return ServerResponse.createByErrorMessage("未登录，不能进行删除操作");
         } else {
             String phoneNumber = user.getPhone();
-            return iVideoService.deleteHistoryByUser(phoneNumber,historicalrecord);
+            return iVideoService.deleteHistoricalRecordByUser(phoneNumber);
         }
 
     }
-
-
-
 }

@@ -17,9 +17,7 @@ public interface HistoricalRecordMapper {
 
     int updateByPrimaryKey(HistoricalRecord record);
 
-    List<HistoricalRecord> selectAllFromHistory();
-
-    List<HistoricalRecord> getHistoryByUser(String phoneNumber);
+    List<HistoricalRecord> getHistoricalRecordByUser(String phoneNumber);
 
     int checkPhone (String phoneNumber);
 
