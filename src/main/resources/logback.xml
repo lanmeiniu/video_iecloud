@@ -1,37 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!--其中appender的配置表示打印到控制台-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoding>UTF-8</encoding>
         <encoder>
             <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
         </encoder>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
     </appender>
-    <appender name="videoshare" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>D:/Work/java/java_log/video-share/videoshare.log</File>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>D:/Work/java/java_log/video-share/videoshare.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
-            <append>true</append>
-            <maxHistory>10</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
-        </encoder>
-        <filter class = "ch.qos.logback.classic.filter.LevelFilter">
-            <level>DEBUG</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-    </appender>
-
-
+    <!--配置WARN级别及以上的日志到指定文件夹-->
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--<File>d:/mmalllog/error.log</File>-->
-        <File>D:/Work/java/java_log/video-share//error.log</File>
+        <File>D:/Work/java/java_log/video-share/error.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>D:/Work/java/java_log/video-share/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <!--<fileNamePattern>d:/mmalllog/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>-->
@@ -41,29 +25,26 @@
         <encoder>
             <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
         </encoder>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>ERROR</level>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
     </appender>
-
-    <logger name="com.iecloud" additivity="false">
-        <level value ="ERROR"/>
-        <appender-ref ref="console" />
-        <appender-ref ref="videoshare"/>
-    </logger>
-
+    <!--appender负责写日志的组件-->
     <logger name="com.iecloud" additivity="false" level="ERROR">
-        <appender-ref ref="console" />
         <appender-ref ref="error"/>
+    </logger>
+    <!--additivity appender是否向上传递，若改为true则logger自身打印一次，root打印一次-->
+    <logger name="com.iecloud" additivity="false" level="DEBUG">
+        <!-- appender-ref 输出端控制项-->
+        <appender-ref ref="console"/>
     </logger>
 
     <!-- geelynote mybatis log 日志 -->
 
     <logger name="com.iecloud.dao" level="DEBUG"/>
-
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="console"/>
     </root>
 
