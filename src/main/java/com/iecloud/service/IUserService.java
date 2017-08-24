@@ -3,10 +3,12 @@ package com.iecloud.service;
 
 import com.iecloud.common.ServerResponse;
 import com.iecloud.pojo.User;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by geely
  */
+@Service
 public interface IUserService {
 
     ServerResponse<User> login(String phoneNumber, String password);

@@ -1,11 +1,15 @@
 package com.iecloud.controller.portal;
 
+import com.iecloud.annotation.AopClassAnno;
+import com.iecloud.annotation.AopMethodAnno;
 import com.iecloud.common.Const;
 import com.iecloud.common.ResponseCode;
 import com.iecloud.common.ServerResponse;
 import com.iecloud.pojo.User;
 import com.iecloud.service.IUserService;
 import com.iecloud.util.DigitalVerificationCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,15 +21,21 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user/")
-public class UserController {
+@AopClassAnno(testString = "testClassAnno")
 
+
+public class UserController {
+    private Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private IUserService iUserService;
 
     @RequestMapping(value = "test.do",method = RequestMethod.POST)
     @ResponseBody
-    public int testerror(){
+    public double testError(){
+        log.error("ERROR");
+        log.info("INFO");
+        log.debug("debug");
         return 9/0;
     }
 
